@@ -1,0 +1,88 @@
+ # Task 1
+
+# import asyncio
+
+# async def timer(interval):
+#     while True:
+#         print("Tick")
+#         await asyncio.sleep(interval)
+
+
+# async def main():
+#     interval_str = input("Enter interval in seconds: ")
+
+#     try:
+#         interval = float(interval_str)
+#         await timer(interval)
+
+#     except ValueError:
+#         print("Please enter a valid number.")
+
+
+# if __name__ == "__main__":
+#     asyncio.run(main())
+
+
+# task2
+
+import asyncio
+
+class PausableTask:
+
+    def __init__(self):
+        self._condition = asyncio.Condition()
+        self._paused = False
+
+    
+    async def start(self):
+        while True:
+            async with self._condition:
+
+                while self._paused:
+                    await self._condition.wait()  
+
+            print("Working...")
+            await asyncio.sleep(1)
+        
+        
+    async def pause(self):
+        async with self._condition:
+            print("Pausing task...")
+            self._paused = True
+
+    async def resume(self):
+        async with self._condition:
+            print("Resuming task...")
+            self._paused = False
+            self._condition.notify_all()
+
+
+import asyncio
+
+class PausableTask:
+
+    def __init__(self):
+        self._condition = asyncio.Condition()
+        self._paused = False
+
+    async def start(self):
+        while True:
+            async with self._condition:
+                while self._paused:
+                    await self._condition.wait()
+            print("Working...")
+            await asyncio.sleep(1)
+
+    async def pause(self):
+        async with self._condition:
+            print("Pausing task...")
+            self._paused = True
+
+    async def resume(self):
+        async with self._condition:
+            print("Resuming task...")
+            self._paused = False
+            self._condition.notify_all()
+
+
+
