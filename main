@@ -86,3 +86,21 @@ class PausableTask:
 
 
 
+    async def main():
+    task = PausableTask()
+    task_runner = asyncio.create_task(task.start())
+
+    while True:
+        user_input = input("Enter 'p' to pause, 'r' to resume, or 'q' to quit: ")
+        if user_input == 'p':
+            await task.pause()
+        elif user_input == 'r':
+            await task.resume()
+        elif user_input == 'q':
+            task_runner.cancel()
+            break
+        else:
+            print("Invalid input. Please enter 'p', 'r', or 'q'.")
+
+
+
